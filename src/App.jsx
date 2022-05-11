@@ -1,4 +1,5 @@
 import React from "react";
+import Modal from './Modal'
 
 const Dash = ({ tickets, onRowClick }) => {
   const handleRowClick = (ticketId) => {
@@ -22,9 +23,9 @@ const Dash = ({ tickets, onRowClick }) => {
         <tbody>
           {tickets.map((item, index) => {
             const {
-              ticketNumber,
-              supportType,
-              ticketState,
+              id,
+              type,
+              state,
               commState,
               submittedBy,
               description,
@@ -39,13 +40,13 @@ const Dash = ({ tickets, onRowClick }) => {
                 <td>
                   <div className="flex items-center space-x-3">
                     <div>
-                      <div className="font-bold">{ticketNumber}</div>
-                      <div className="text-sm opacity-50">{supportType}</div>
+                      <div className="font-bold">{id}</div>
+                      <div className="text-sm opacity-50">{type}</div>
                     </div>
                   </div>
                 </td>
                 <td>
-                  {ticketState}
+                  {state}
                   <br />
                   <span className="badge badge-ghost badge-sm">
                     {commState}
@@ -91,16 +92,16 @@ const App = () => {
   };
   const buttonText = wallet ?? "Connect Wallet";
 
-  const item = {
-    ticketNumber: "Ticket 1",
-    supportType: "General Support",
-    ticketState: "In Progress",
+  const ticket = {
+    id: "Ticket 1",
+    type: "General Support",
+    state: "In Progress",
     commState: "Waiting for a reply",
     submittedBy: "0x45trs5rstd44854354856456325464565412568545456x",
     description: "Cannot Buy NFT",
   };
 
-  const items = [item, item, item, item, item, item, item, item, item];
+  const tickets = [ticket, ticket, ticket, ticket, ticket, ticket, ticket, ticket, ticket];
 
   return (
     <div className="container mx-auto">
@@ -112,7 +113,8 @@ const App = () => {
           {buttonText}
         </button>
       </div>
-      <Dash tickets={items} onRowClick={handleRowClick} />
+      <Dash tickets={tickets} onRowClick={handleRowClick} />
+      <Modal isVisible={modalVisibility} />
     </div>
   );
 };
