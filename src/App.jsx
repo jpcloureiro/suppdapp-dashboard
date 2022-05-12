@@ -1,5 +1,5 @@
 import React from "react";
-import Modal from './Modal'
+import Modal from "./Modal";
 
 const Dash = ({ tickets, onRowClick }) => {
   const handleRowClick = (ticketId) => {
@@ -22,14 +22,8 @@ const Dash = ({ tickets, onRowClick }) => {
         </thead>
         <tbody>
           {tickets.map((item, index) => {
-            const {
-              id,
-              type,
-              state,
-              commState,
-              submittedBy,
-              description,
-            } = item;
+            const { id, type, state, commState, submittedBy, description } =
+              item;
 
             return (
               <tr
@@ -90,6 +84,12 @@ const App = () => {
   const handleRowClick = () => {
     setModalVisibility(!modalVisibility);
   };
+
+  const handleCloseModal = () => {
+    console.log("lets close");
+    setModalVisibility(false);
+  };
+
   const buttonText = wallet ?? "Connect Wallet";
 
   const ticket = {
@@ -97,24 +97,58 @@ const App = () => {
     type: "General Support",
     state: "In Progress",
     commState: "Waiting for a reply",
-    submittedBy: "0x45trs5rstd44854354856456325464565412568545456x",
+    submittedBy: "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
     description: "Cannot Buy NFT",
   };
 
-  const tickets = [ticket, ticket, ticket, ticket, ticket, ticket, ticket, ticket, ticket];
+  const userMessage = {
+    walletAddress: "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
+    timestamp: Date.now(),
+    content: "Hello, I need help",
+  };
+  const myMessage = {
+    walletAddress: "0xc0c8E364363cf4d032eD2D2f62d8e48BB2D84420",
+    timestamp: Date.now(),
+    content: "Hi, how can I help you",
+  };
+
+  const ticketDetails = {
+    id: 1,
+    title: "Cannot Buy NFT",
+    description: "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
+    messages: [userMessage, myMessage, userMessage, myMessage, userMessage],
+  };
+
+  const tickets = [
+    ticket,
+    ticket,
+    ticket,
+    ticket,
+    ticket,
+    ticket,
+    ticket,
+    ticket,
+    ticket,
+  ];
 
   return (
-    <div className="container mx-auto">
-      <div className="container flex justify-end my-10">
-        <button
-          className="btn btn-primary"
-          onClick={handleOnConnectWalletClick}
-        >
-          {buttonText}
-        </button>
+    <div>
+      <div className="container mx-auto">
+        <div className="container flex justify-end my-10">
+          <button
+            className="btn btn-primary"
+            onClick={handleOnConnectWalletClick}
+          >
+            {buttonText}
+          </button>
+        </div>
+        <Dash tickets={tickets} onRowClick={handleRowClick} />
       </div>
-      <Dash tickets={tickets} onRowClick={handleRowClick} />
-      <Modal isVisible={modalVisibility} />
+      <Modal
+        isVisible={modalVisibility}
+        onClose={handleCloseModal}
+        ticket={ticketDetails}
+      />
     </div>
   );
 };
